@@ -12,38 +12,29 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.example.learn.http.client.apache.hc4.util.HttpClientUtils;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 /**
- * 打印日志的系统参数
- * -Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog
- * -Dorg.apache.commons.logging.simplelog.showdatetime=true
- * -Dorg.apache.commons.logging.simplelog.log.org.apache.http=DEBUG
- * -Dorg.apache.commons.logging.simplelog.log.org.apache.http.wire=ERROR
- *
  *
  */
-public class HttpClientTest {
+public class Ch01HttpClientTest {
 
-    public static void initLog() {
-        System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.SimpleLog");
-        System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
-        System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http", "DEBUG");
-        System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http.wire", "ERROR");
+    @Before
+    public void setup() {
+        HttpClientUtils.initLog();
     }
 
     @Test
     public void test01() throws IOException {
-        initLog();
-
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+            // 此时并不会创建tcp连接,只有在HttpClient.execute方法中才开始创建tcp连接
             HttpGet httpGet = new HttpGet("https://www.example.com/");
 
             // The underlying HTTP connection is still held by the response object
@@ -51,8 +42,8 @@ public class HttpClientTest {
             // In order to ensure correct deallocation of system resources
             // the user MUST call CloseableHttpResponse#close() from a finally clause.
             // Please note that if response content is not fully consumed the underlying
-            // connection cannot be safely re-used and will be shut down and discarded
-            // by the connection manager.
+            // connection cannot be safely re-used and will be shut down and discarded by the connection manager.
+            // 上面文字提到,如果一个tcp连接中的数据没有被完全消费,那么这个tcp连接不会被复用
             try (CloseableHttpResponse response = httpclient.execute(httpGet)) {
                 System.out.println(response.getStatusLine());
                 HttpEntity entity = response.getEntity();
@@ -65,8 +56,6 @@ public class HttpClientTest {
 
     @Test
     public void test02() throws IOException {
-        initLog();
-
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
             HttpPost httpPost = new HttpPost("https://httpbin.org/post");
             List<NameValuePair> nvps = new ArrayList<>();

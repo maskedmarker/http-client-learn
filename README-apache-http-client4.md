@@ -40,6 +40,24 @@ start-line      = Request-Line | Status-Line
 HttpMessage这个接口是对很久之前http协议的抽象,当前http协议已经发生了很大改变,该接口仅仅作为HttpRequest/HttpResponse java语法层面公共方法的复用.
 不要过多关注该类.
 
+### HttpEntity
+An entity that can be sent or received with an HTTP message. 
+Entities can be found in some requests and in responses, where they are optional.
+
+There are three distinct types of entities in HttpCore, depending on where their content originates:
+1. streamed: The content is received from a stream, or generated on the fly. In particular, this category includes entities being received from a connection. Streamed entities are generally not repeatable.
+2. self-contained: The content is in memory or obtained by means that are independent from a connection or other entity. Self-contained entities are generally repeatable.
+3. wrapping: The content is obtained from another entity.
+
+被放在http的body中,被传送的数据.
+
+#### multipart
+AbstractMultipartForm(multipart真正抽象)
+FormBodyPart(multipart中的part部分)
+MultipartFormEntity是MultipartEntity的升级版,是对AbstractMultipartForm的薄薄抽象,提供了httpEntity的header和contentLength
+
+
+
 
 ### ClientExecChain
 
@@ -97,4 +115,6 @@ SSLConnectionSocketFactory.connectSocket
 
 
 org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect
+
+
 
