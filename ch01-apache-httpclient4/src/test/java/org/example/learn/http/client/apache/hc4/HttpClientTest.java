@@ -15,8 +15,22 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+/**
+ * -Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog
+ * -Dorg.apache.commons.logging.simplelog.showdatetime=true
+ * -Dorg.apache.commons.logging.simplelog.log.org.apache.http=DEBUG
+ * -Dorg.apache.commons.logging.simplelog.log.org.apache.http.wire=ERROR
+ */
 public class HttpClientTest {
+
+    static {
+        System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.SimpleLog");
+        System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
+        System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http", "DEBUG");
+        System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http.wire", "ERROR");
+    }
 
     @Test
     public void test0() throws IOException {
@@ -43,7 +57,7 @@ public class HttpClientTest {
     @Test
     public void test1() throws IOException {
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-            HttpPost httpPost = new HttpPost("http://targethost/login");
+            HttpPost httpPost = new HttpPost("https://httpbin.org/post");
             List<NameValuePair> nvps = new ArrayList<>();
             nvps.add(new BasicNameValuePair("username", "vip"));
             nvps.add(new BasicNameValuePair("password", "secret"));
