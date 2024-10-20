@@ -2,30 +2,33 @@ package org.example.learn.spring.boot.web.mock.model;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.util.Map;
 
 public class RequestData {
 
-    private String key1;
+    private String field1;
 
-    private String key2;
+    private String field2;
 
     private MultipartFile file;
 
-    public String getKey1() {
-        return key1;
+    //    private Map<String, Object> field3;
+    private String field3;
+
+    public String getField1() {
+        return field1;
     }
 
-    public void setKey1(String key1) {
-        this.key1 = key1;
+    public void setField1(String field1) {
+        this.field1 = field1;
     }
 
-    public String getKey2() {
-        return key2;
+    public String getField2() {
+        return field2;
     }
 
-    public void setKey2(String key2) {
-        this.key2 = key2;
+    public void setField2(String field2) {
+        this.field2 = field2;
     }
 
     public MultipartFile getFile() {
@@ -34,5 +37,13 @@ public class RequestData {
 
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    public String getField3() {
+        return field3;
+    }
+
+    public void setField3(String field3) {
+        this.field3 = field3;
     }
 }

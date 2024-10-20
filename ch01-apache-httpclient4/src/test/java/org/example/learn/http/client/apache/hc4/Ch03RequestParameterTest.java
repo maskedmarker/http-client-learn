@@ -76,6 +76,39 @@ public class Ch03RequestParameterTest {
             // 添加普通字段
             builder.addTextBody("field1", "value1", ContentType.TEXT_PLAIN); // 不设置编码就用text/plain的编码ISO_8859_1
             builder.addTextBody("field2", URLEncoder.encode("中文", StandardCharsets.UTF_8.name()), ContentType.APPLICATION_FORM_URLENCODED);
+            builder.addTextBody("field3", "{\"name\": \"zhangsan\"}", ContentType.APPLICATION_JSON);
+
+            // 添加文件字段
+            File file = new File("src/test/resources/文件名.txt");
+            builder.addBinaryBody("file", file, ContentType.APPLICATION_OCTET_STREAM, file.getName());
+
+            // 构建HttpEntity
+            HttpEntity multipart = builder.build();
+            // 将HttpEntity设置到HttpPost实例中
+            httpPost.setEntity(multipart);
+            // 执行请求并获取响应
+            try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+                System.out.println(response.getStatusLine());
+                String responseBody = EntityUtils.toString(response.getEntity());
+                System.out.println(responseBody);
+            }
+        }
+    }
+
+    @Test
+    public void test11() throws IOException {
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+            // 创建HttpPost实例，设置目标URL
+            HttpPost httpPost = new HttpPost("http://localhost:8080/myapp/param/multipart");
+//            httpPost = new HttpPost("http://localhost:8080/myapp/param/multipart2");
+
+            // 通过MultipartEntityBuilder来创建MultipartFormEntity
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+
+            // 添加普通字段
+            builder.addTextBody("field1", "value1", ContentType.TEXT_PLAIN); // 不设置编码就用text/plain的编码ISO_8859_1
+            builder.addTextBody("field2", URLEncoder.encode("中文", StandardCharsets.UTF_8.name()), ContentType.APPLICATION_FORM_URLENCODED);
+            builder.addTextBody("field3", "{\"name\": \"zhangsan\"}", ContentType.APPLICATION_JSON);
 
             // 添加文件字段
             File file = new File("src/test/resources/文件名.txt");
