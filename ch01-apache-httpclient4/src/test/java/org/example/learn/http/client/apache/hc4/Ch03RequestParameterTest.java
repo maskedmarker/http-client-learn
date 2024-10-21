@@ -52,9 +52,9 @@ public class Ch03RequestParameterTest {
             try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
                 System.out.println(response.getStatusLine());
                 HttpEntity responseEntity = response.getEntity();
-                // 不设置编码,就依据HttpEntity的ContentType来决定,
+                // 不设置编码,就依据HttpEntity的ContentType的mimeType来决定,
                 // 如果还不确定,就用http默认编码ISO_8859_1
-                // application/json类型的ContentType的编码是UTF-8
+                // application/json类型mimeType的编码是UTF-8
                 String responseBody = EntityUtils.toString(responseEntity);
 
                 // 注意:返回的json数据中,中文用的是\u4e2d\u6587
