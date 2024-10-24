@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>ch001-mock-server</module>
+        <module>ch002-httpbin</module>
     </modules>
 
     <properties>
