@@ -117,4 +117,7 @@ SSLConnectionSocketFactory.connectSocket
 org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect
 
 
-
+在解析header时,将byte[]转换为CharArrayBuffer时,仅仅是简单的cast
+The bytes are converted to chars using simple cast.类似于下面的cast强转.
+this.buffer[i2] = (char) (b[i1] & 0xff);
+因为http的header都是简单的iso8859-1字符,一个char可以hold住
