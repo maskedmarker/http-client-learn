@@ -35,8 +35,11 @@ public class Ch01HttpHeaderTest {
                     String rawValue = header.getValue();
                     System.out.println("rawValue = " + rawValue);
                     if (rawValue.contains("%")) {
-                        byte[] rawBytes = new PercentCodec().decode(rawValue.getBytes(StandardCharsets.UTF_8));
+                        // http header必须是ISO-8859-1
+                        byte[] rawBytes = new PercentCodec().decode(rawValue.getBytes(StandardCharsets.ISO_8859_1));
+                        // 获取到原始字节码
                         System.out.println("rawBytes = " + Hex.encodeHexString(rawBytes));
+                        // (假设已知server端用的编码)基于编码还原为字符串
                         String value = new String(rawBytes, StandardCharsets.UTF_8);
                         System.out.println("value = " + value);
                     }
