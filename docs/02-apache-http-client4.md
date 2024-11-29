@@ -41,7 +41,7 @@ HttpMessage这个接口是对很久之前http协议的抽象,当前http协议已
 不要过多关注该类.
 
 ### HttpEntity
-An entity that can be sent or received with an HTTP message. 
+An entity that can be sent or received with an HTTP message.
 Entities can be found in some requests and in responses, where they are optional.
 
 There are three distinct types of entities in HttpCore, depending on where their content originates:
@@ -62,7 +62,7 @@ MultipartFormEntity是MultipartEntity的升级版,是对AbstractMultipartForm的
 ### ClientExecChain
 
 ### MainClientExec
-The last request executor in the HTTP request execution chain that is responsible for execution of request / response exchanges with the opposite endpoint. 
+The last request executor in the HTTP request execution chain that is responsible for execution of request / response exchanges with the opposite endpoint.
 This executor will automatically retry the request in case of an authentication challenge by an intermediate proxy or by the target server.
 
 发送用户url的请求,并获取响应报文,还能自动执行认证.
@@ -73,7 +73,7 @@ MainClientExec比HttpRequestExecutor更高层的抽象.HttpRequestExecutor更多
 最终执行blocking io操作的类,用来向socket写入/读取数据,以及协议的解析.
 
 HttpRequestExecutor is a client side HTTP protocol handler based on the blocking (classic) I/O model.
-HttpRequestExecutor relies on HttpProcessor to generate mandatory protocol headers for all outgoing messages and apply common, cross-cutting message transformations to all incoming and outgoing messages. 
+HttpRequestExecutor relies on HttpProcessor to generate mandatory protocol headers for all outgoing messages and apply common, cross-cutting message transformations to all incoming and outgoing messages.
 Application specific processing can be implemented outside HttpRequestExecutor once the request has been executed and a response has been received.
 
 
