@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>ch01-apache-httpclient4</module>
+        <module>ch02-apache-httpclient4</module>
         <module>ch00-infra</module>
     </modules>
 
