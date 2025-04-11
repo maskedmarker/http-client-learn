@@ -5,6 +5,10 @@
 apache httpclient对于http spec的模型还原度还是比较高的,可以作为学习http概念的切入口.
 spring关于的http的抽象模型比较简陋.
 
+MDN中对于http的描述比较比较简洁
+https://developer.mozilla.org/en-US/docs/Web/HTTP
+
+rfc9110描述了http规范的详细内容
 
 ## 编码
 The default encoding for HTTP headers is ISO-8859-1 (also known as Latin-1).
@@ -18,4 +22,9 @@ This limitation applies only to headers; the body of an HTTP message can specify
 当提交的表单包含文件时,就必须使用multipart/form-data,且该请求必须是POST.
 
 application/x-www-form-urlencoded会将non-ASCII characters使用percent-encoding转码
-multipart/form-data不会对任何表单元素进行转码,保持原始的二进制数据进行传输.对于字符串就取其对应code-unit sequence;对于文件就取其原本的二进制数据.
+multipart/form-data的part中没有声明content-type时,不会对任何表单field值进行转码.对字符串其对应code-unit sequence.
+
+rfc-7578中规定:form-data的每个part可以有自己的content-type,如果没有则使用默认值text/plain.
+有些请求中会将part的content-type声明为text/plain,或者干脆不声明
+有些请求中会将part的content-type声明为application/x-www-form-urlencoded
+所以在解析时,一定要注意.
