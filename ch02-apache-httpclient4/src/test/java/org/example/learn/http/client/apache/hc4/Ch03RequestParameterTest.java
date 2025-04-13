@@ -6,6 +6,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -104,7 +105,8 @@ public class Ch03RequestParameterTest {
 
             // 通过MultipartEntityBuilder来创建MultipartFormEntity
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-
+            builder.setMode(HttpMultipartMode.RFC6532);
+            builder.setCharset(StandardCharsets.UTF_8);
             // 添加普通字段
             builder.addTextBody("field1", "value1", ContentType.TEXT_PLAIN); // 不设置编码就用text/plain的编码ISO_8859_1
             builder.addTextBody("field2", URLEncoder.encode("中文", StandardCharsets.UTF_8.name()), ContentType.APPLICATION_FORM_URLENCODED);

@@ -1,5 +1,6 @@
 package org.example.learn.http.client.apache.util;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -21,18 +22,33 @@ import java.util.List;
 public class UrlEncodeTest {
 
     @Test
+    public void test00() throws Exception {
+        // 获取字符的code-point
+        System.out.println("codePoint of 中 is " + Integer.toHexString(Character.codePointAt("中", 0)));
+        System.out.println("codePoint of 文 is " + Integer.toHexString(Character.codePointAt("文", 0)));
+        // 使用code-point表达字符
+        String str = "\u4e2d\u6587"; // "中文"
+        System.out.println("str = " + str);
+
+        System.out.println("---------------------------------------------");
+        // 获取字符code-point的code-unit sequence
+        byte[] utf8Bytes = str.getBytes(StandardCharsets.UTF_8);
+        System.out.println("Hex.encodeHexString(utf8Bytes) = " + Hex.encodeHexString(utf8Bytes));
+
+        byte[] utf16Bytes = str.getBytes(StandardCharsets.UTF_16);
+        System.out.println("Hex.encodeHexString(utf8Bytes) = " + Hex.encodeHexString(utf16Bytes));
+        System.out.println("---------------------------------------------");
+
+        // 中
+        //UTF-8 code units: E4 B8 AD
+        //UTF-16 code units: 4E2D
+    }
+
+    @Test
     public void test01() throws Exception {
         String str = "中文";
         String encode = URLEncoder.encode(str, StandardCharsets.UTF_8.name());
         System.out.println("encode = " + encode); // %E4%B8%AD%E6%96%87
-    }
-
-    @Test
-    public void test02() throws Exception {
-        String str = "\u4e2d\u6587";
-        System.out.println("str = " + str);
-        str = "\u8fd9\u662f\u4e00\u53e5\u4e2d\u6587";
-        System.out.println("str = " + str);
     }
 
     @Test
