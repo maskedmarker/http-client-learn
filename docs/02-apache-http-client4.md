@@ -121,3 +121,39 @@ org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect
 The bytes are converted to chars using simple cast.类似于下面的cast强转.
 this.buffer[i2] = (char) (b[i1] & 0xff);
 因为http的header都是简单的iso8859-1字符,一个char可以hold住
+
+
+#### InternalHttpClient
+
+```text
+From the official Apache HttpClient 4.5+ documentation:
+
+“Instances of CloseableHttpClient are thread safe and can be shared between multiple threads.
+When used with a connection manager such as PoolingHttpClientConnectionManager, it is recommended to use a single shared instance for the entire application.”
+```
+
+org.apache.http.impl.client.InternalHttpClient is thread-safe
+InternalHttpClient is the default implementation of the CloseableHttpClient class in the Apache HttpClient library (version 4.3+).
+You usually don’t instantiate it directly — it’s created internally by:
+```text
+HttpClients.createDefault()
+HttpClients.custom().build()
+```
+
+```text
+Apache HttpClient’s design explicitly separates immutable, thread-safe client objects from mutable, non-thread-safe request/response objects.
+
+✅ Thread-safe:
+    CloseableHttpClient (and its subclass InternalHttpClient)
+    PoolingHttpClientConnectionManager
+    RequestConfig (immutable)
+    HttpHost, HttpRoute, etc.
+
+❌ Not thread-safe:
+    HttpRequest / HttpPost / HttpGet (mutable request instances)
+    HttpResponse / HttpEntity
+    BasicHttpContext (per-request context)
+    
+    
+There is no mutable shared state inside InternalHttpClient that changes per request.    
+```
